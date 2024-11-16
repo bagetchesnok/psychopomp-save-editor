@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychopomp GOLD save editor</title>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="sakura-vader.css">
+    <style>label{display: inline}</style>
+</head>
+<body>
+    <h1>Psychopomp GOLD save editor</h1>
+    <p>Save is located at: <code>%APPDATA%/Psychopomp/prefs.save</code></p>
+    <input type="file" placeholder="Save File" accept=".save"/>
+    
+    <hr>
+    <h2>Edit</h2>
+
+    <button type="submit">Save</button>
+
+    <h3>Level 1</h3>
+    <label for="Sewer">1. Sewage Treatment</label>
+    <input type="checkbox" id="Sewer">
+    <br>
+    <label for="Hospital">2. Children's Hospital</label>
+    <input type="checkbox" id="Hospital">
+    <br>
+    <label for="School">3. Public School</label>
+    <input type="checkbox" id="School">
+    <br>
+
+    <h3>Level 2</h3>
+    <label for="Building">4. Building</label>
+    <input type="checkbox" id="Building">
+    <br>
+    <label for="DNA">5. DNA</label>
+    <input type="checkbox" id="DNA">
+    <br>
+
+    <h3>TODO(mrsteyk): I haven't played past this point</h3>
+
+    <h3>Meta stuff</h3>
+    <label for="WonGame">Won Game?</label>
+    <input type="checkbox" id="WonGame">
+    <br>
+    <label for="SaveExist">Save Exist?</label>
+    <input type="checkbox" id="SaveExist">
+    <br>
+    <label for="MapLevel">Map Level:</label>
+    <input type="number" id="MapLevel" min="1" max="4" value="1">
+    <br>
+    <label for="EmeraldKeys">Emerald Keys:</label>
+    <!-- TODO(mrsteyk): max??? -->
+    <input type="number" id="EmeraldKeys" min="0" max="10" value="0">
+    <br>
+    <label for="Keys">Keys (no fucking idea what this means):</label>
+    <!-- TODO(mrsteyk): max??? -->
+    <input type="number" id="Keys" min="0" max="10" value="0">
+    <br>
+
+    <h3>Inventory (I am very fucking lazy for this one)</h3>
+
+    <button type="submit">Save but at the bottom</button>
+
+    <hr>
+    <h2>Raw data (WIP RO)</h2>
+    <pre id="ds"></pre>
+
+    <hr>
+    <!-- That dumb line keeps metal block away, idk if it's even used?
+for i in [a[0]] + a[2:]:
+    print(f"<h3 id=\"{i['id']}\">{i['name']}</h3>\n<img src=\"items_converted/{i['image'].split('/')[-1].split('.')[0]}.webp\" alt=\"{i['name']} from Psychopomp\">\n<p>{i['description']}</p>\n<p>Size: {i['width']}x{i['height']}</p><p>Usable: {i['usable']}</p>")
+    if i['usable'] == 'true':
+        print(f"<p>Gives HP: {i['health']}</p><p>Gives Mana: {i['mana']}</p>")
+    print() -->
+    <h2>Item images and shit</h2>
+    <h3 id="Key01">Basic Key</h3>
+    <img src="items_converted/Key.webp" alt="Basic Key from Psychopomp">
+    <p>A rusted key. Someone put the rust there on purpose.</p>
+    <p>Size: 1x2</p><p>Usable: false</p>
+
+    <h3 id="Syringe1">Red Syringe</h3>
+    <img src="items_converted/Syringe1.webp" alt="Red Syringe from Psychopomp">
+    <p>An unknown syringe, with an unknown bright red fluid in it.</p>
+    <p>Size: 1x2</p><p>Usable: true</p>
+    <p>Gives HP: 3</p><p>Gives Mana: -2</p>
+
+    <h3 id="Syringe2">Purple Syringe</h3>
+    <img src="items_converted/Syringe2.webp" alt="Purple Syringe from Psychopomp">
+    <p>An unknown syringe, with some sort of purple stuff in it?</p>
+    <p>Size: 1x2</p><p>Usable: true</p>
+    <p>Gives HP: -2</p><p>Gives Mana: 2</p>
+
+    <h3 id="QueenKey">Queen Key</h3>
+    <img src="items_converted/QueenKey.webp" alt="Queen Key from Psychopomp">
+    <p>A rusted, but very special key.</p>
+    <p>Size: 1x2</p><p>Usable: false</p>
+
+    <h3 id="KeyCard">Nurse KeyCard</h3>
+    <img src="items_converted/KeyCard.webp" alt="Nurse KeyCard from Psychopomp">
+    <p>A plastic keycard.</p>
+    <p>Size: 2x1</p><p>Usable: false</p>
+
+    <h3 id="Sulfur">Sulfur</h3>
+    <img src="items_converted/Sulfur.webp" alt="Sulfur from Psychopomp">
+    <p>A smelly Crystal.</p>
+    <p>Size: 2x1</p><p>Usable: false</p>
+
+    <h3 id="DDT">DDT</h3>
+    <img src="items_converted/DDT.webp" alt="DDT from Psychopomp">
+    <p>A Poisonous Crystal Chemical.</p>
+    <p>Size: 1x2</p><p>Usable: false</p>
+
+    <h3 id="Bromine">Bromine</h3>
+    <img src="items_converted/Chemical.webp" alt="Bromine from Psychopomp">
+    <p>A Noxious Cleaner.</p>
+    <p>Size: 1x1</p><p>Usable: false</p>
+
+    <h3 id="EmptySyringe">Empty Syringe</h3>
+    <img src="items_converted/DNA1.webp" alt="Empty Syringe from Psychopomp">
+    <p>An Empty Syringe, used for collecting DNA Samples.</p>
+    <p>Size: 1x2</p><p>Usable: false</p>
+
+    <h3 id="DNASyringe">Filled Syringe</h3>
+    <img src="items_converted/DNA2.webp" alt="Filled Syringe from Psychopomp">
+    <p>A container full of valuable DNA information. Don't Drop it.</p>
+    <p>Size: 1x2</p><p>Usable: false</p>
+
+    <h3 id="ParagonKey">Paragon Key</h3>
+    <img src="items_converted/ParagonKey.webp" alt="Paragon Key from Psychopomp">
+    <p>It's not actually a key, but an important component of life.</p>
+    <p>Size: 2x2</p><p>Usable: false</p>
+</body>
+</html>
