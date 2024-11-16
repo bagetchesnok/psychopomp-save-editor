@@ -149,9 +149,7 @@ function createItem(iul, id = undefined, nodeName = undefined) {
     ili.appendChild(removeBtn)
 
     if (id) {
-        const idx = ITEMS.findIndex((v) => v.id == id);
-        select.value = ITEMS[idx].id;
-        select.selectedIndex = idx;
+        select.value = id;
     }
     if (nodeName) {
         ili.setAttribute("data-node-name", nodeName);
