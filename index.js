@@ -1,4 +1,5 @@
 const td = new TextDecoder()
+const te = new TextEncoder()
 
 const ITEMS = [
     {
@@ -129,6 +130,106 @@ function writeU32LE(a, n, offset = 0) {
     a[offset + 3] = (n >> 24)&0xFF
 }
 
+function writeVariantBool(/** @type {Boolean} */ v) {
+    const ret = new Uint8Array(8)
+    ret[0] = 1
+    ret[4] = v ? 1 : 0
+    return ret
+}
+
+function writeVariantU32(/** @type {Number} */ v) {
+    const ret = new Uint8Array(8)
+    ret[0] = 2
+    writeU32LE(ret, v, 4)
+    return ret
+}
+
+function writeVariantString(/** @type {String} */ v) {
+    const b = te.encode(v)
+    const len = b.byteLength
+    const len_align = (len + 3) & (~3)
+    const ret = new Uint8Array(8 + len_align)
+    ret[0] = 4;
+    writeU32LE(ret, len, 4);
+    ret.set(b, 8)
+    return ret
+}
+
+function writeVariantArray(v) {
+    const a = []
+    for (var i = 0; i < v.length; i++) {
+        const e = v[i]
+        switch (typeof(e)) {
+        case 'boolean': {
+            a.push(writeVariantBool(e))
+        }; break
+        case 'number': {
+            a.push(writeVariantU32(e))
+        }; break
+        case 'string': {
+            a.push(writeVariantString(e))
+        }; break
+        case 'object': {
+            if (e.length !== undefined && e.findIndex) a.push(writeVariantArray(e))
+            else a.push(writeVariantKV(e))
+        }; break
+        default: {
+            console.error("UNKNOWN TYPE", {i, e, t: typeof(e)})
+        }; break
+        }
+    }
+
+    const total_len = a.reduce((pa, e) => pa + e.byteLength, 0)
+    const ret = new Uint8Array(8 + total_len)
+    ret[0] = 0x1c
+    writeU32LE(ret, a.length, 4)
+    let offset = 8
+    a.forEach((v) => {
+        for (var i = 0; i < v.length; i++) ret[offset + i] = v[i]
+        offset += v.byteLength
+    })
+
+    return ret
+}
+
+function writeVariantKV(kv) {
+    const kvs = []
+    for (const k in kv) {
+        kvs.push(writeVariantString(k))
+        const e = kv[k]
+        switch (typeof(e)) {
+        case 'boolean': {
+            kvs.push(writeVariantBool(e))
+        }; break
+        case 'number': {
+            kvs.push(writeVariantU32(e))
+        }; break
+        case 'string': {
+            kvs.push(writeVariantString(e))
+        }; break
+        case 'object': {
+            if (e.length !== undefined && e.findIndex) kvs.push(writeVariantArray(e))
+            else kvs.push(writeVariantKV(e))
+        }; break
+        default: {
+            console.error("UNKNOWN TYPE", {k, e, t: typeof(e)})
+        }; break
+        }
+    }
+
+    const total_len = kvs.reduce((pa, e) => pa + e.byteLength, 0)
+    const ret = new Uint8Array(8 + total_len)
+    ret[0] = 0x1b
+    writeU32LE(ret, kvs.length / 2, 4)
+    let offset = 8
+    kvs.forEach((v) => {
+        for (var i = 0; i < v.length; i++) ret[offset + i] = v[i]
+        offset += v.byteLength
+    })
+
+    return ret
+}
+
 function createItem(iul, id = undefined, nodeName = undefined) {
     const ili = document.createElement('li')
         
@@ -156,6 +257,23 @@ function createItem(iul, id = undefined, nodeName = undefined) {
     }
 
     return ili
+}
+
+function parseItemHtml(/** @type {HTMLLIElement} */ li) {
+    return {
+        'node_name': li.hasAttribute('data-node-name') ? li.getAttribute('data-node-name') : '_Node_0' + Math.floor(Math.random()*99),
+        'protoset': 'res://ItemsNew.tres',
+        'prototype_id': li.querySelector('select').value,
+    }
+}
+
+function getItems(/** @type {HTMLUListElement} */iul) {
+    const ii = iul.children
+    const a = new Array(ii.length);
+    for (var i = 0; i < ii.length; i++) {
+        a[i] = parseItemHtml(ii[i])
+    }
+    return a
 }
 
 function parseInner(/** @type {Uint8Array} */ a) {
@@ -270,13 +388,58 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsArrayBuffer(this.files[0])
         }
     }, false)
+
+    const iul = document.querySelector('#items')
+
     document.querySelectorAll('button[type=submit]').forEach((e) => {
-        // TODO(mrsteyk): saving!
+        e.addEventListener('click', function() {
+            const saveData = {};
+            saveData['WonGame'] = document.querySelector('#WonGame').checked
+            // saveData['Library'] = document.querySelector('#Library').checked
+            saveData['Library'] = false
+            saveData['InventoryDict'] = {
+                "node_name": "InventoryGrid",
+                "item_protoset": "res://ItemsNew.tres",
+                "constraints": {
+                    "grid_constraint": {
+                        "size": "Vector2i(6, 4)"
+                    }
+                },
+                "items": getItems(iul)
+            }
+            saveData['SaveExist'] = document.querySelector('#SaveExist').checked
+            saveData['Keys'] = parseInt(document.querySelector('#Keys').value)
+            saveData['MapLayer'] = parseInt(document.querySelector('#MapLayer').value)
+            saveData['School'] = document.querySelector('#School').checked
+            saveData['Sewer'] = document.querySelector('#Sewer').checked
+            saveData['Hospital'] = document.querySelector('#Hospital').checked
+            saveData['DNA'] = document.querySelector('#DNA').checked
+            saveData['Building'] = document.querySelector('#Building').checked
+            // saveData['Symbol'] = document.querySelector('#Symbol').checked
+            saveData['Symbol'] = false
+            saveData['EmeraldKeys'] = parseInt(document.querySelector('#EmeraldKeys').value)
+            console.log(saveData)
+
+            const kvb = writeVariantKV(saveData)
+            console.log(kvb)
+            kvb.STK_OFFSET = 0
+            console.log(parseInner(kvb))
+            const data = new Uint8Array(kvb.length + 4)
+            for (var i = 0; i < kvb.length; i++) data[4+i] = kvb[i]
+            writeU32LE(data, kvb.length, 0)
+            const blob = new Blob([data])
+            // NOTE(mrsteyk): a hack to download with filename
+            const a = document.createElement('a')
+            a.download = 'prefs.save'
+            a.href = URL.createObjectURL(blob)
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+        })
     })
 
     /** @type {HTMLButtonElement} */
     const aibtn = document.querySelector('#addItem')
-    const iul = document.querySelector('#items')
     aibtn.addEventListener('click', () => {
         const ili = createItem(iul)
         iul.appendChild(ili)
