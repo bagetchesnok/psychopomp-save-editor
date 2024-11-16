@@ -7,7 +7,7 @@
     <script src="index.js"></script>
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="sakura-vader.css">
-    <style>label{display: inline}</style>
+    <style>label{display: inline}#items>li>select{margin-right: 5px}</style>
 
     <meta name="title" content="Psychopomp GOLD save editor" />
     <meta name="description" content="Psychopomp GOLD save editor contained entirely within your browser! No secret is safe from you now!" />
@@ -76,7 +76,12 @@
     <input type="number" id="Keys" min="0" max="10" value="0">
     <br>
 
-    <h3>Inventory (I am very fucking lazy for this one)</h3>
+    <h3>Inventory</h3>
+    <p>Game doesn't save positions of items: <code>gloot</code> addon doesn't serialise it.</p>
+    <ul id="items"></ul>
+    <button type="button" id="addItem">Add Item</button>
+    <br>
+    <br>
 
     <button type="submit">Save but at the bottom</button>
 
