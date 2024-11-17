@@ -330,14 +330,14 @@ function parseInner(/** @type {Uint8Array} */ a) {
         /* int */
         case 2: {
             if (flags & 1) {
-                console.log("OOPS!!! INT64!")
+                console.error("OOPS!!! INT64!")
                 return -1
             }
             a.STK_OFFSET += 8
             return readU32LE(a, a.STK_OFFSET - 4)
         }
         default: {
-            console.log("Unknown", {type, flags})
+            console.error("Unknown", {type, flags})
             return
         }
     }
@@ -365,7 +365,7 @@ function parse(ab) {
         } else {
             const tp = typeof(save[k])
             const e = document.querySelector(`#${k}`)
-            if (!e) console.log("NULL", {tp, k})
+            if (!e) console.warn("NULL", {tp, k})
             else if (tp == 'boolean') e.checked = save[k]
             else if (tp == 'number') e.value = save[k]
         }
@@ -418,12 +418,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // saveData['Symbol'] = document.querySelector('#Symbol').checked
             saveData['Symbol'] = false
             saveData['EmeraldKeys'] = parseInt(document.querySelector('#EmeraldKeys').value)
-            console.log(saveData)
+            console.info('HTML STATE', saveData)
 
             const kvb = writeVariantKV(saveData)
-            console.log(kvb)
+            console.info('SAVE DATA', kvb)
             kvb.STK_OFFSET = 0
-            console.log(parseInner(kvb))
+            console.info('PARSED SAVE', parseInner(kvb))
             const data = new Uint8Array(kvb.length + 4)
             for (var i = 0; i < kvb.length; i++) data[4+i] = kvb[i]
             writeU32LE(data, kvb.length, 0)
