@@ -373,6 +373,118 @@ function parse(ab) {
     }
 }
 
+// Now that I think about it I could've just toggled display/visibility hidden?
+function spoilers_bs() {
+    const c = document.querySelector('#STK_USELESS_CONTAINER')
+
+    const trivia_h3 = document.createElement('h3')
+    trivia_h3.innerText = "Trivia"
+    c.appendChild(trivia_h3)
+
+    const ul = document.createElement('ul')
+    const USELESS = [
+        `Celestial Children (two figures you see at the end of Pomp's/Venus' home) share the same model?`,
+        `There are 2 unused "Egg of Earth" models: one normal and one low poly. Final version has one sphere with fetus (made of two parts: path and retopo symmvert), while previous(?) had two spheres (one purple for the outside and one for the eye) and fetus body (retopo cube).`,
+        `It is implied that as Mercury you are gathering "Mother", "Father", their(?) "Child" (a puppet?) and "non girl"/"non descript" creature for a meeting organised by "KOAD" (King Of All Dogs).`,
+        `On second Mercury level one of the two hunters you meet (the big one) is called Toewalker.`,
+        `Nurses are made out of clay!`,
+        `There was supposed to be an anime dinosaur called Dipthosaur?`,
+        `Spikes are called "Feelers"!`,
+        `Furry species is called "Thrait"s!`,
+        `Flamethrower enemy on "Symbols" is called "Totaller".`,
+        `Things with female heads on top you see in "Instructions" are called "WomanLighter"s.`,
+        `There are two models for the player: Psychopomp and PsychopompPlayerModel. Former is made entirely out of simple primitives (albeit modified) and uses only vertex colouring, while the latter is the model you see in Third Person Mode and it also has more animations.`,
+        // `There's an unused character called "princeface"? He has blue hair, a crown and no skin with barely any flesh, making his skeleton visible. Animations have sounds associated with them, which are also present in the final game.`,
+    ]
+    USELESS.forEach((v) => {
+        const e = document.createElement('li')
+        e.innerHTML = v
+        ul.appendChild(e)
+    })
+    c.appendChild(ul)
+
+    const assets_h3 = document.createElement('h3')
+    assets_h3.innerText = "Some Assets and Pictures"
+    c.appendChild(assets_h3)
+
+    const USELESS_WEBP = [
+        [
+            "MercFaceSmile-Expressions.webp",
+            "Facial Expression sprite sheet of Mercury from Psychopomp GOLD",
+            "Merc(ury)'s facial expressions."
+        ],
+        [
+            "MercFaceSmile.webp",
+            "Mercury's face from Psychopomp GOLD",
+            "Merc(ury)'s face."
+        ],
+        [
+            "Mercury tip.webp",
+            "Mercury as seen on the loading screen in Psychopomp GOLD",
+            "Upper body of Mercury as seen in loading screens."
+        ],
+        [
+            "Psychopomp FaceSprite.webp",
+            "Face sprite of Main Character from Psychopomp GOLD",
+            "Face sprite of Pomp/Venus as seen in dialogue boxes."
+        ],
+        [
+            "Psychopomp tip.webp",
+            "Main Character as seen in loading screens from Psychopomp GOLD",
+            "Pomp/Venus as seen in loading screen."
+        ],
+        [
+            "Psychopompface.webp",
+            "Main Character's face sprite as seen on the side in first person mode in Psychopomp GOLD",
+            "Idk why that avatar is there honestly. Or I didn't find every single picture variant or my extractor is bad."
+        ],
+        [
+            "PsychopompFace64.webp",
+            "Small black and white face sprite of Main Character from Psychopomp GOLD",
+            "Smoll."
+        ],
+        [
+            "PsychopompFace64Fail.webp",
+            "Small black and white face sprite of Main Character from Psychopomp GOLD with red X over it",
+            "Death."
+        ],
+        [
+            "PsychopompFaceHand.webp",
+            "Hand sprite from Psychopomp GOLD",
+            "Hand?"
+        ],
+        [
+            "PsychopompFaceSheetShapes.webp",
+            "First part of facial expression sprite sheet of Main Character from Psychopomp GOLD",
+            "Facial expressions for main menu(?) but split into two for some reason? (1/2)"
+        ],
+        [
+            "PsychopompFaceSheetShapes2.webp",
+            "Second part of facial expression sprite sheet of Main Character from Psychopomp GOLD",
+            "Facial expressions for main menu(?) but split into two for some reason? (2/2)"
+        ],
+        [
+            "PsychopompFaceSmile.webp",
+            "Huge black and white face sprite of Main Character from Psychopomp GOLD",
+            "Biggie Cheese"
+        ],
+        [
+            "PsychopompFrontLook.webp",
+            "Pencil drawing of Main Character from Psychopomp GOLD with a slight smile",
+            "Pencil drawing that was imported into the project for some reason? Blame Godot automatic import of every single asset it sees?"
+        ],
+    ]
+    USELESS_WEBP.forEach((v) => {
+        const img = document.createElement("img")
+        img.src = "useless/" + v[0]
+        img.alt = v[1]
+        const p = document.createElement("p")
+        p.innerHTML = v[2]
+        c.appendChild(img)
+        c.appendChild(p)
+    })
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('input').addEventListener('change', function() {
         if (this.files.length == 1) {
@@ -445,4 +557,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const ili = createItem(iul)
         iul.appendChild(ili)
     })
+
+    /** @type {HTMLButtonElement} */
+    const spoiler = document.querySelector('#STK_SPOILER_BTN')
+    spoiler.addEventListener('click', spoilers_bs)
 })

@@ -28,6 +28,7 @@
 </head>
 <body>
     <h1>Psychopomp GOLD save editor</h1>
+    <noscript><p>This side requires JS to work properly!</p></noscript>
     <p>Save is located at: <code>%APPDATA%/Psychopomp/prefs.save</code></p>
     <input type="file" placeholder="Save File" accept=".save"/>
     
@@ -103,7 +104,7 @@ for i in a:
     if i['usable'] == 'true':
         print(f"<p>Gives HP: {i.get('health', '0')}</p><p>Gives Mana: {i.get('mana', '0')}</p>")
     print() -->
-    <h2>Item images and shit</h2>
+    <h2 id="STK_ITEMS">Item images and shit</h2>
     <h3 id="Key01">Basic Key</h3>
     <img src="items_converted/Key.webp" alt="Basic Key from Psychopomp">
     <p>A rusted key. Someone put the rust there on purpose.</p>
@@ -166,5 +167,10 @@ for i in a:
     <img src="items_converted/ParagonKey.webp" alt="Paragon Key from Psychopomp">
     <p>It's not actually a key, but an important component of life.</p>
     <p>Size: 2x2</p><p>Usable: false</p>
+
+    <hr>
+    <h2 id="STK_USELESS">Useless Images and Trivia</h2>
+    <button id="STK_SPOILER_BTN">Click here to view this section. [SPOILER WARNING]</button>
+    <div id="STK_USELESS_CONTAINER"></div>
 </body>
 </html>
