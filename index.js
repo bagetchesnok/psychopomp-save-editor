@@ -395,6 +395,7 @@ function spoilers_bs() {
         `Things with female heads on top you see in "Instructions" are called "WomanLighter"s.`,
         `There are two models for the player: Psychopomp and PsychopompPlayerModel. Former is made entirely out of simple primitives (albeit modified) and uses only vertex colouring, while the latter is the model you see in Third Person Mode and it also has more animations.`,
         // `There's an unused character called "princeface"? He has blue hair, a crown and no skin with barely any flesh, making his skeleton visible. Animations have sounds associated with them, which are also present in the final game.`,
+        `You can press F2 to hide UI.`,
     ]
     USELESS.forEach((v) => {
         const e = document.createElement('li')
@@ -472,6 +473,21 @@ function spoilers_bs() {
             "PsychopompFrontLook.webp",
             "Pencil drawing of Main Character from Psychopomp GOLD with a slight smile",
             "Pencil drawing that was imported into the project for some reason? Blame Godot automatic import of every single asset it sees?"
+        ],
+        [
+            "Screenshot_Father.webp",
+            "Screenshot from Psychopomp GOLD featuring Father from Mercury's level.",
+            "Father as seen in-game"
+        ],
+        [
+            "Screenshot_Mother.webp",
+            "Screenshot from Psychopomp GOLD featuring Mother from Mercury's level.",
+            "Mother as seen in-game"
+        ],
+        [
+            "Screenshot_Child.webp",
+            "Screenshot from Psychopomp GOLD featuring Child from Mercury's level.",
+            "Child as seen in-game"
         ],
     ]
     USELESS_WEBP.forEach((v) => {
