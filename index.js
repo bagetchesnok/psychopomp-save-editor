@@ -385,7 +385,7 @@ function spoilers_bs() {
     const USELESS = [
         `Celestial Children (two figures you see at the end of Pomp's/Venus' home) share the same model?`,
         `There are 2 unused "Egg of Earth" models: one normal and one low poly. Final version has one sphere with fetus (made of two parts: path and retopo symmvert), while previous(?) had two spheres (one purple for the outside and one for the eye) and fetus body (retopo cube).`,
-        `It is implied that as Mercury you are gathering "Mother", "Father", their(?) "Child" (a puppet?) and "non girl"/"non descript" creature for a meeting organised by "KOAD" (King Of All Dogs).`,
+        `It is implied that as Mercury you are gathering "Mother" (obsessed with snakes), "Father" (obsessed with flowers), their(?) "Child" (a puppet? or obssessed with them) for a meeting organised by "KOAD" (King Of All Dogs).`,
         `On second Mercury level two hunters you meet are called "Toewalker"s.`,
         `Nurses are made out of clay!`,
         `There was supposed to be an anime dinosaur called Dipthosaur?`,
