@@ -252,6 +252,7 @@ function createItem(iul, id = undefined, nodeName = undefined) {
     if (id) {
         select.value = id;
     }
+    // TODO(mrsteyk): also retain positions in inventory????
     if (nodeName) {
         ili.setAttribute("data-node-name", nodeName);
     }
