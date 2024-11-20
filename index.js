@@ -480,7 +480,7 @@ function spoilers_bs() {
         [
             "PsychopompFrontLook.webp",
             "Pencil drawing of Main Character from Psychopomp GOLD with a slight smile",
-            "Pencil drawing that was imported into the project for some reason? Blame Godot automatic import of every single asset it sees?"
+            "Pencil drawing that was imported into the project for some reason? Blame Godot automatic import of every single asset it sees? Or it was a texture at some point since it's 512x512 (or I didn't find the model)."
         ],
         [
             "Screenshot_Father.webp",
@@ -507,6 +507,10 @@ function spoilers_bs() {
         c.appendChild(img)
         c.appendChild(p)
     })
+
+    /** @type {HTMLButtonElement} */
+    const btn = document.querySelector('#STK_SPOILER_BTN')
+    btn.remove()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
