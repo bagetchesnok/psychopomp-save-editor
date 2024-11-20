@@ -114,7 +114,7 @@ const ITEMS = [
         "usable": "false",
         "width": 2
     },
-];
+]
 
 function readU32LE(a, offset = 0) {
     return a[offset + 0] | (a[offset + 1] << 8) | (a[offset + 2] << 16) | (a[offset + 3] << 24)
@@ -149,8 +149,8 @@ function writeVariantString(/** @type {String} */ v) {
     const len = b.byteLength
     const len_align = (len + 3) & (~3)
     const ret = new Uint8Array(8 + len_align)
-    ret[0] = 4;
-    writeU32LE(ret, len, 4);
+    ret[0] = 4
+    writeU32LE(ret, len, 4)
     ret.set(b, 8)
     return ret
 }
@@ -230,7 +230,7 @@ function writeVariantKV(kv) {
     return ret
 }
 
-function createItem(iul, id = undefined, nodeName = undefined) {
+function createItem(iul, id = undefined, nodeName = undefined, properties = undefined) {
     const ili = document.createElement('li')
         
     const select = document.createElement('select')
@@ -250,27 +250,34 @@ function createItem(iul, id = undefined, nodeName = undefined) {
     ili.appendChild(removeBtn)
 
     if (id) {
-        select.value = id;
+        select.value = id
     }
     // TODO(mrsteyk): also retain positions in inventory????
     if (nodeName) {
-        ili.setAttribute("data-node-name", nodeName);
+        ili.setAttribute("data-node-name", nodeName)
+    }
+    if (properties) {
+        ili.setAttribute("data-node-props", JSON.stringify(properties))
     }
 
     return ili
 }
 
 function parseItemHtml(/** @type {HTMLLIElement} */ li) {
-    return {
+    const ret = {
         'node_name': li.hasAttribute('data-node-name') ? li.getAttribute('data-node-name') : '_Node_0' + Math.floor(Math.random()*99),
         'protoset': 'res://ItemsNew.tres',
         'prototype_id': li.querySelector('select').value,
     }
+    if (li.hasAttribute("data-node-props")) {
+        ret['properties'] = JSON.parse(li.getAttribute("data-node-props"))
+    }
+    return ret
 }
 
 function getItems(/** @type {HTMLUListElement} */iul) {
     const ii = iul.children
-    const a = new Array(ii.length);
+    const a = new Array(ii.length)
     for (var i = 0; i < ii.length; i++) {
         a[i] = parseItemHtml(ii[i])
     }
@@ -296,7 +303,7 @@ function parseInner(/** @type {Uint8Array} */ a) {
                 // console.log("KV", {i, k, v})
             }
 
-            return ret;
+            return ret
         }
         /* arr */
         case 0x1c: {
@@ -360,7 +367,8 @@ function parse(ab) {
             items.forEach((v) => {
                 const nodeName = v['node_name']
                 const id = v['prototype_id']
-                const ili = createItem(iul, id, nodeName)
+                const properties = v['properties']
+                const ili = createItem(iul, id, nodeName, properties)
                 iul.appendChild(ili)
             })
         } else {
@@ -522,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('button[type=submit]').forEach((e) => {
         e.addEventListener('click', function() {
-            const saveData = {};
+            const saveData = {}
             saveData['WonGame'] = document.querySelector('#WonGame').checked
             saveData['Library'] = document.querySelector('#Library').checked
             saveData['InventoryDict'] = {
