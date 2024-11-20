@@ -524,8 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.addEventListener('click', function() {
             const saveData = {};
             saveData['WonGame'] = document.querySelector('#WonGame').checked
-            // saveData['Library'] = document.querySelector('#Library').checked
-            saveData['Library'] = false
+            saveData['Library'] = document.querySelector('#Library').checked
             saveData['InventoryDict'] = {
                 "node_name": "InventoryGrid",
                 "item_protoset": "res://ItemsNew.tres",
@@ -544,9 +543,10 @@ document.addEventListener('DOMContentLoaded', () => {
             saveData['Hospital'] = document.querySelector('#Hospital').checked
             saveData['DNA'] = document.querySelector('#DNA').checked
             saveData['Building'] = document.querySelector('#Building').checked
-            // saveData['Symbol'] = document.querySelector('#Symbol').checked
-            saveData['Symbol'] = false
+            saveData['Symbol'] = document.querySelector('#Symbol').checked
             saveData['EmeraldKeys'] = parseInt(document.querySelector('#EmeraldKeys').value)
+            const tpsu = document.querySelector("#TPSUnlocked")
+            if (tpsu && tpsu.checked) saveData['TPSUnlocked'] = true
             console.info('HTML STATE', saveData)
 
             const kvb = writeVariantKV(saveData)
