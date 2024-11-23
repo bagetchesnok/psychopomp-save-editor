@@ -433,6 +433,16 @@ function spoilers_bs() {
             "Upper body of Mercury as seen in loading screens."
         ],
         [
+            "HUDFACESHEETM1.webp",
+            "Mercury's avatar as seen on the left side in Psychopomp GOLD",
+            "like Psychopompface.png, but M(erc)."
+        ],
+        [
+            "HUDFACESHEETM.webp",
+            "Mercury's avatar spritesheet for different HP levels as seen on the left side in Psychopomp GOLD",
+            "like HUDFACESHEET.png, but M(erc)."
+        ],
+        [
             "Psychopomp FaceSprite.webp",
             "Face sprite of Main Character from Psychopomp GOLD",
             "Face sprite of Pomp/Venus as seen in dialogue boxes."
@@ -444,8 +454,13 @@ function spoilers_bs() {
         ],
         [
             "Psychopompface.webp",
-            "Main Character's face sprite as seen on the side in first person mode in Psychopomp GOLD",
-            "Idk why that avatar is there honestly. Or I didn't find every single picture variant or my extractor is bad."
+            "Main Character's face sprite as seen on the left side in first person mode in Psychopomp GOLD",
+            "This is like HUDFACESHEETM1.png, but Pomp."
+        ],
+        [
+            "HUDFACESHEET.webp",
+            "Main Character avatar spritesheet for different HP levels as seen on the left side in first person mode in Psychopomp GOLD",
+            "Masochist and Tired Masochist."
         ],
         [
             "PsychopompFace64.webp",
@@ -483,6 +498,16 @@ function spoilers_bs() {
             "Pencil drawing that was imported into the project for some reason? Blame Godot automatic import of every single asset it sees? Or it was a texture at some point since it's 512x512 (or I didn't find the model)."
         ],
         [
+            "ElevatorPomp.webp",
+            "Main Character sprite as seen in Elevator cutscene.",
+            "Elevator Pomp dot PNG. Why is this here if latter file is also present? /shrug"
+        ],
+        [
+            "ElevatorPompFrames.webp",
+            "Main Character animation spritesheet for Elevator cutscene.",
+            "Elevator Pomp Frames dot PNG"
+        ],
+        [
             "Screenshot_Father.webp",
             "Screenshot from Psychopomp GOLD featuring Father from Mercury's level.",
             "Father as seen in-game"
@@ -496,7 +521,7 @@ function spoilers_bs() {
             "Screenshot_Child.webp",
             "Screenshot from Psychopomp GOLD featuring Child from Mercury's level.",
             "Child as seen in-game"
-        ],
+        ]
     ]
     USELESS_WEBP.forEach((v) => {
         const img = document.createElement("img")
